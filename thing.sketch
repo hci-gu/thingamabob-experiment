@@ -1,0 +1,33 @@
+const int LED_PIN = 5;
+const int BUTTON_PIN = 0;
+const int START_PIN = 2;    // grey
+const int STOP_PIN = 4;     // red
+
+void setup()
+{
+    pinMode(LED_PIN, OUTPUT);
+    pinMode(BUTTON_PIN, INPUT_PULLUP);
+    pinMode(START_PIN, INPUT_PULLUP);
+    pinMode(STOP_PIN, INPUT_PULLUP);
+    Serial.begin(115200);
+}
+
+void loop()
+{
+  int start;
+
+  while(digitalRead(START_PIN) == HIGH);
+
+  start = millis();
+
+  while(digitalRead(STOP_PIN) == HIGH);
+
+  int duration = millis() - start;
+
+  Serial.print("time ");
+  Serial.println(duration);
+
+  delay(1000);
+
+  Serial.println("Starting again");
+}
