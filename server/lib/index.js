@@ -2,8 +2,11 @@ const express = require('express')
 const app = express()
 const serial = require('./serial')
 const { Server } = require("socket.io")
+const routes = require('./routes')
 
 const port = process.env.PORT || 3000
+
+app.use(routes)
 
 const server = app.listen(port, () => {
   console.log(`listening on ${port}`)
