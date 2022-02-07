@@ -8,16 +8,7 @@ const fs = require('fs')
 
 const filename = '../data.csv'
 
-let groups = [{
-  id: 'asdf',
-  name: 'named group',
-  trials: [
-    {
-      config: [4, 3, 2, 7],
-      result: 345,
-    },
-  ],
-}]
+let groups = []
 
 function serialise(groups) {
   const data = groups.flatMap(group => group.trials.map((trial, i) => ({
@@ -56,9 +47,12 @@ function unserialise(csv) {
 }
 
 function load() {
-  const content = fs.readFileSync(filename)
-  groups = unserialise(content.toString())
-  console.log({ groups })
+  try {
+    const content = fs.readFileSync(filename)
+    groups = unserialise(content.toString())
+  } catch (_) {
+    groups = []
+  }
 }
 
 load()
