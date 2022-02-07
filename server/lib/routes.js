@@ -32,7 +32,7 @@ router.post('/groups', (req, res) => {
     name,
   }
   groups.push(newGroup)
-  save()
+  save(groups)
   res.json(newGroup)
 })
 
@@ -45,7 +45,7 @@ router.post('/groups/:id/trials', (req, res) => {
     return
   }
   group.trials.push({ config, result })
-  save()
+  save(groups)
   res.json(group.trials)
 })
 

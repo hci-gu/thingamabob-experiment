@@ -13,7 +13,7 @@ function load() {
   }
 }
 
-function save() {
+function save(groups) {
   const csv = serialise(groups)
   fs.writeFileSync(filename, csv)
 }
