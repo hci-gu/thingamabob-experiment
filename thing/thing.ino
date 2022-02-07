@@ -18,12 +18,15 @@ void loop()
 
   Serial.println("event: ready");
 
-  while(digitalRead(START_PIN) == HIGH);
+  waitOnStart:
+  while(digitalRead(START_PIN) == LOW);
 
   Serial.println("event: start");
   start = millis();
 
-  while(digitalRead(STOP_PIN) == HIGH);
+  while(digitalRead(STOP_PIN) == HIGH) {
+    if (digitalRead(START_PIN) == LOW) goto waitOnStart;
+  }
 
   int duration = millis() - start;
 
