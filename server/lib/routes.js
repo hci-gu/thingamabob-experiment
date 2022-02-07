@@ -3,29 +3,9 @@ const express = require('express')
 const router = express.Router()
 const cors = require('cors')
 const { v4: uuidv4 } = require('uuid')
-const fs = require('fs')
+const { load, save } = require('./file')
 
-const { unserialise, serialise } = require('./serialization')
-
-const filename = '../data.csv'
-
-let groups = []
-
-function load() {
-  try {
-    const content = fs.readFileSync(filename)
-    groups = unserialise(content.toString())
-  } catch (_) {
-    groups = []
-  }
-}
-
-load()
-
-function save() {
-  const csv = serialise(groups)
-  fs.writeFileSync(filename, csv)
-}
+const groups = load()
 
 router.use(cors())
 router.use(express.json())
