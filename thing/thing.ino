@@ -16,18 +16,20 @@ void loop()
 {
   int start;
 
+  Serial.println("event: ready");
+
   while(digitalRead(START_PIN) == HIGH);
 
+  Serial.println("event: start");
   start = millis();
 
   while(digitalRead(STOP_PIN) == HIGH);
 
   int duration = millis() - start;
 
-  Serial.print("time ");
+  Serial.print("event: time ");
+
   Serial.println(duration);
 
   delay(1000);
-
-  Serial.println("Starting again");
 }
