@@ -30,6 +30,7 @@ router.post('/groups', (req, res) => {
   const newGroup = {
     id: uuidv4(),
     name,
+    trials: [],
   }
   groups.push(newGroup)
   save(groups)
