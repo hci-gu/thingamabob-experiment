@@ -16,7 +16,7 @@ router.get('/groups', (req, res) => {
 })
 
 router.get('/groups/:id', (req, res) => {
-  const id = req.param('id')
+  const { id } = req.params
   const group = groups.find(({ id: groupId }) => groupId === id)
   if (!group) {
     res.status(404).end()
