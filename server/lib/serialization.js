@@ -1,7 +1,7 @@
 const Papa = require('papaparse')
 
 function serialise(groups) {
-  const data = groups.flatMap(group => group.trials.map((trial, i) => ({
+  const data = groups.flatMap(group => group.trials && group.trials.map((trial, i) => ({
     groupId: group.id,
     groupName: group.name,
     trial: i + 1,
@@ -10,8 +10,8 @@ function serialise(groups) {
     weight2: trial.config[1],
     weight3: trial.config[2],
     weight4: trial.config[3],
-  })))
-  return Papa.unparse(data)
+  }))).filter(x => !!x)
+  return data.length > 0 ? Papa.unparse(data) : ''
 }
 
 function unserialise(csv) {
