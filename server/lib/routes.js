@@ -37,7 +37,8 @@ router.post('/groups', (req, res) => {
 })
 
 router.post('/groups/:id/trials', (req, res) => {
-  const { id, config, result } = req.body
+  const { id } = req.params
+  const { config, result } = req.body
   const group = groups.find(({ id: groupId }) => groupId === id)
   if (!group) {
     res.status(404).end()
