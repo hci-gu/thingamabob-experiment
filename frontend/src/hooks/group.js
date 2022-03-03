@@ -2,6 +2,7 @@ import { useAtom } from 'jotai'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { activeGroupAtom, groupsAtom, selectedTrialAtom } from '../state'
+import { getPreviousGroupComment } from '../utils'
 
 const url = import.meta.env.VITE_API_URL
 
@@ -42,15 +43,11 @@ export const useGroup = () => {
       const response = await fetch(`${url}/groups/${id}`)
       const data = await response.json()
 
-      // split trials to five
-      const groups = data.trials.reduce((acc, cur, i) => {
-        if (i % 5 === 0) {
-          acc.push([])
-        }
-        acc[acc.length - 1].push(cur)
-        return acc
-      }, [])
-      if (groups.length === 0) {
+      const trials = data.trials.map((trial, i) => ({
+        ...trial,
+        index: i,
+      }))
+      if (trials.length === 0) {
         setSelectedTrial(null)
         setGroup({
           ...data,
@@ -59,13 +56,13 @@ export const useGroup = () => {
         })
         return
       }
-      const current = groups[groups.length - 1]
+      const current = trials[trials.length - 1]
 
-      setSelectedTrial(current[current.length - 1])
+      setSelectedTrial(current)
       setGroup({
         ...data,
-        trials: current,
-        history: groups.length > 1 ? groups[groups.length - 2].slice(3, 5) : [],
+        trials,
+        comment: getPreviousGroupComment(trials, trials.length),
       })
     }
     if (id) run()

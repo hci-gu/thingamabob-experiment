@@ -10,6 +10,7 @@ function serialise(groups) {
     weight2: trial.config[1],
     weight3: trial.config[2],
     weight4: trial.config[3],
+    comment: trial.comment,
   }))).filter(x => !!x)
   return data.length > 0 ? Papa.unparse(data) : ''
 }
@@ -29,6 +30,7 @@ function unserialise(csv) {
         +d.weight4,
       ],
       result: +d.time,
+      comment: d.comment,
     })
     groups[id] = group
   })

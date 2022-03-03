@@ -1,4 +1,3 @@
-const { json } = require('express')
 const express = require('express')
 const router = express.Router()
 const cors = require('cors')
@@ -48,6 +47,21 @@ router.post('/groups/:id/trials', (req, res) => {
   group.trials.push({ config, result })
   save(groups)
   res.json(group.trials)
+})
+
+router.post('/groups/:id/:index/comment', (req, res) => {
+  const { id, index } = req.params
+  const { comment } = req.body
+
+  const group = groups.find(({ id: groupId }) => groupId === id)
+  const trial = group ? group.trials[index - 1] : null
+  if (!group || !trial) {
+    res.status(404).end()
+    return
+  }
+  trial.comment = comment
+  save(groups)
+  res.json(trial)
 })
 
 module.exports = router

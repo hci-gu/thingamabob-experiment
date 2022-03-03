@@ -11,18 +11,19 @@ import { PageContainer } from '../theme'
 import Controls from './Controls'
 import Trials from './Trials'
 import styled from '@emotion/styled'
-import { Button, CircularProgress } from '@chakra-ui/react'
-import { useParams } from 'react-router-dom'
+import { Button, CircularProgress, Textarea } from '@chakra-ui/react'
+import { useHistory, useParams } from 'react-router-dom'
 
 const url = import.meta.env.VITE_API_URL
 
 const SubmitButton = styled(Button)`
   position: absolute;
-  bottom: 0;
-  right: 0;
+  bottom: 12px;
+  right: 12px;
 `
 
-const ActiveTrial = ({ refreshGroup }) => {
+const ActiveTrial = ({ refreshGroup, index }) => {
+  const history = useHistory()
   const { id } = useParams()
   const socket = useSocket()
   const [trial, setTrialValues] = useAtom(activeTrialAtom)
@@ -40,25 +41,30 @@ const ActiveTrial = ({ refreshGroup }) => {
             result: data.durationMs,
           }),
         })
-        // setTrialValues(INITIAL_TRIAL_STATE)
+        setTrialValues(INITIAL_TRIAL_STATE)
+        if ((index + 1) % 5 === 0) {
+          history.push(`/group/${id}/done/${index + 1}`)
+          return
+        }
         refreshGroup()
       })
     }
     return () => socket && socket.off('time')
   }, [socket, trial.validated])
 
-  const onChange = (index, value) => {
+  const onChange = (i, value) => {
     setTrialValues((state) => ({
       ...state,
       config: [
-        ...state.config.slice(0, index),
+        ...state.config.slice(0, i),
         value,
-        ...state.config.slice(index + 1),
+        ...state.config.slice(i + 1),
       ],
     }))
   }
 
   const onValidatePressed = async () => {
+    if (socket) socket.emit('validated')
     setTrialValues((state) => ({
       ...state,
       validated: true,
@@ -67,7 +73,7 @@ const ActiveTrial = ({ refreshGroup }) => {
 
   return (
     <div>
-      <Controls trial={trial} onChange={onChange}>
+      <Controls trial={{ ...trial, index }} onChange={onChange} active>
         <SubmitButton onClick={onValidatePressed} disabled={trial.validated}>
           {trial.validated ? 'Validated' : 'Validate'}
         </SubmitButton>
@@ -77,9 +83,17 @@ const ActiveTrial = ({ refreshGroup }) => {
 }
 
 const TrialsContainer = styled.div`
-  display: flex;
+  display: grid;
 
-  justify-content: space-around;
+  padding: 0 10%;
+  grid-template-columns: 1fr 1fr;
+  grid-row-gap: 20px;
+  justify-content: center;
+  justify-items: center;
+`
+
+const TheoryInput = styled(Textarea)`
+  grid-column: 1 / span 2;
 `
 
 const Experiment = () => {
@@ -96,11 +110,12 @@ const Experiment = () => {
 
   return (
     <PageContainer>
-      <Trials trials={group.trials} history={group.history} />
+      <Trials trials={group.trials} />
       <br></br>
       <TrialsContainer>
+        <TheoryInput value={group.comment} disabled />
         {selectedTrial && <Controls trial={selectedTrial} />}
-        <ActiveTrial refreshGroup={refreshGroup} />
+        <ActiveTrial refreshGroup={refreshGroup} index={group.trials.length} />
       </TrialsContainer>
     </PageContainer>
   )

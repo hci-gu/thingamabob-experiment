@@ -15,8 +15,15 @@ const server = app.listen(port, () => {
 const io = new Server(server)
 
 io.on('connection', socket => {
-  console.log('connected')
   socket.on('disconnect', () => console.log('disconnected'))
+  // For testing purposes only, send fake duration back to client
+  socket.on('validated', () => {
+    let start = new Date()
+    setTimeout(() => {
+      const duration = new Date() - start
+      io.emit('time', { durationMs: duration })
+    }, 1000 + (100 * Math.random()))
+  })
 })
 
 // serial.init({
@@ -29,3 +36,4 @@ io.on('connection', socket => {
 //     }
 //   }
 // })
+

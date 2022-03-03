@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import Start from './Start'
 import Experiment from './Experiment'
 import useSocket from './hooks/useSocket'
+import DonePage from './DonePage'
 
 const Root = () => {
   useSocket()
@@ -15,14 +16,14 @@ const Root = () => {
       <ChakraProvider>
         <Router>
           <Switch>
+            <Route path="/group/:id/done/:index">
+              <DonePage />
+            </Route>
             <Route path="/group/:id">
               <Experiment />
             </Route>
             <Route path="/">
               <Start />
-            </Route>
-            <Route path="/:sessionId/connect">
-              <div>Väl exp</div>
             </Route>
           </Switch>
         </Router>

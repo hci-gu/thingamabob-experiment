@@ -8,17 +8,31 @@ import {
   SliderMark,
   Tooltip,
 } from '@chakra-ui/react'
+import { colorForIndex } from '../utils'
+
+const Wrapper = styled.div``
+
+const Background = styled.div`
+  background-color: ${(props) => props.color};
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid #000;
+`
 
 const Container = styled.div`
+  background-color: #fff;
+  border: 2px solid black;
+  padding: 24px;
+  border-radius: 24px;
   position: relative;
 
-  width: 450px;
-  height: 450px;
+  width: 360px;
+  height: 360px;
 
   > span {
     position: absolute;
-    left: 0;
-    bottom: 0;
+    left: 12px;
+    bottom: 12px;
   }
 `
 
@@ -53,54 +67,62 @@ const ControlSlider = ({ reverse, value, index, onChange, ...props }) => {
   )
 }
 
-const Controls = ({ trial, onChange, children }) => {
+const Controls = ({ trial, onChange, children, active = false }) => {
   const isReadOnly = !trial.active || trial.validated
+  const text = active ? 'Desired configuration' : 'Previous configuration'
 
   return (
-    <Container isActive={trial.active}>
-      <ControlSlider
-        index={0}
-        value={trial.config[0]}
-        orientation="vertical"
-        minH={44}
-        style={{ left: '50%', top: '0' }}
-        onChange={onChange}
-        isReadOnly={isReadOnly}
-      />
-      <ControlSlider
-        index={1}
-        value={trial.config[1]}
-        width={200}
-        style={{ right: '0', top: '50%' }}
-        onChange={onChange}
-        isReadOnly={isReadOnly}
-      />
-      <ControlSlider
-        index={2}
-        value={trial.config[2]}
-        orientation="vertical"
-        minH={44}
-        style={{ left: '50%', top: '70%' }}
-        onChange={onChange}
-        isReadOnly={isReadOnly}
-        reverse
-      />
-      <ControlSlider
-        index={3}
-        value={trial.config[3]}
-        width={200}
-        style={{ left: '0', top: '50%' }}
-        onChange={onChange}
-        isReadOnly={isReadOnly}
-        reverse
-      />
-      <span>
-        Duration:{' '}
-        {trial.result ? Intl.NumberFormat('sv-se').format(trial.result) : '- '}{' '}
-        ms
-      </span>
-      {children}
-    </Container>
+    <Wrapper>
+      <span>{text}</span>
+      <Background color={colorForIndex(trial.index + 1)}>
+        <Container isActive={trial.active}>
+          <ControlSlider
+            index={0}
+            value={trial.config[0]}
+            orientation="vertical"
+            minH={32}
+            style={{ left: '48%', top: '5%' }}
+            onChange={onChange}
+            isReadOnly={isReadOnly}
+          />
+          <ControlSlider
+            index={1}
+            value={trial.config[1]}
+            width={124}
+            style={{ right: '5%', top: '48%' }}
+            onChange={onChange}
+            isReadOnly={isReadOnly}
+          />
+          <ControlSlider
+            index={2}
+            value={trial.config[2]}
+            orientation="vertical"
+            minH={32}
+            style={{ left: '48%', top: '60%' }}
+            onChange={onChange}
+            isReadOnly={isReadOnly}
+            reverse
+          />
+          <ControlSlider
+            index={3}
+            value={trial.config[3]}
+            width={124}
+            style={{ left: '5%', top: '48%' }}
+            onChange={onChange}
+            isReadOnly={isReadOnly}
+            reverse
+          />
+          <span>
+            Duration:{' '}
+            {trial.result
+              ? Intl.NumberFormat('sv-se').format(trial.result)
+              : '- '}{' '}
+            ms
+          </span>
+          {children}
+        </Container>
+      </Background>
+    </Wrapper>
   )
 }
 
