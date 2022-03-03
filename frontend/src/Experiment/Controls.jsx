@@ -12,8 +12,8 @@ import {
 const Container = styled.div`
   position: relative;
 
-  width: 500px;
-  height: 500px;
+  width: 450px;
+  height: 450px;
 
   > span {
     position: absolute;
@@ -53,52 +53,53 @@ const ControlSlider = ({ reverse, value, index, onChange, ...props }) => {
   )
 }
 
-const Controls = ({ trial, onChange }) => {
+const Controls = ({ trial, onChange, children }) => {
+  const isReadOnly = !trial.active || trial.validated
+
   return (
     <Container isActive={trial.active}>
       <ControlSlider
         index={0}
-        value={trial.values[0]}
+        value={trial.config[0]}
         orientation="vertical"
         minH={44}
         style={{ left: '50%', top: '0' }}
         onChange={onChange}
-        isReadOnly={!trial.active}
+        isReadOnly={isReadOnly}
       />
       <ControlSlider
         index={1}
-        value={trial.values[1]}
+        value={trial.config[1]}
         width={200}
         style={{ right: '0', top: '50%' }}
         onChange={onChange}
-        isReadOnly={!trial.active}
+        isReadOnly={isReadOnly}
       />
       <ControlSlider
         index={2}
-        value={trial.values[2]}
+        value={trial.config[2]}
         orientation="vertical"
         minH={44}
         style={{ left: '50%', top: '70%' }}
         onChange={onChange}
-        isReadOnly={!trial.active}
+        isReadOnly={isReadOnly}
         reverse
       />
       <ControlSlider
         index={3}
-        value={trial.values[3]}
+        value={trial.config[3]}
         width={200}
         style={{ left: '0', top: '50%' }}
         onChange={onChange}
-        isReadOnly={!trial.active}
+        isReadOnly={isReadOnly}
         reverse
       />
       <span>
         Duration:{' '}
-        {trial.duration
-          ? Intl.NumberFormat('sv-se').format(trial.duration)
-          : '- '}{' '}
+        {trial.result ? Intl.NumberFormat('sv-se').format(trial.result) : '- '}{' '}
         ms
       </span>
+      {children}
     </Container>
   )
 }

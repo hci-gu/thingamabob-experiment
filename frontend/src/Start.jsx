@@ -20,7 +20,7 @@ const Start = () => {
   const [groups, createGroup] = useGroups()
 
   const create = async () => {
-    const group = await createGroup()
+    const group = await createGroup(name)
     history.push(`/group/${group.id}`)
   }
 

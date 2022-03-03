@@ -1,6 +1,6 @@
 const express = require('express')
 const app = express()
-const serial = require('./serial')
+// const serial = require('./serial')
 const { Server } = require("socket.io")
 const routes = require('./routes')
 
@@ -19,13 +19,13 @@ io.on('connection', socket => {
   socket.on('disconnect', () => console.log('disconnected'))
 })
 
-serial.init({
-  devpath: process.env.DEVPATH || '/dev/tty.usbserial-D308DE73',
-  events: {
-    time: args => {
-      console.log('Got duration', args[0])
+// serial.init({
+//   devpath: process.env.DEVPATH || '/dev/tty.usbserial-D308DE73',
+//   events: {
+//     time: args => {
+//       console.log('Got duration', args[0])
 
-      io.emit('time', { durationMs: +args[0] })
-    }
-  }
-})
+//       io.emit('time', { durationMs: +args[0] })
+//     }
+//   }
+// })
