@@ -2,7 +2,6 @@ import React from 'react'
 import styled from '@emotion/styled'
 import { useAtom } from 'jotai'
 import { selectedTrialAtom } from '../state'
-import { Center, Divider } from '@chakra-ui/react'
 import { canSeeTrialForIndex, colorForIndex, isActiveGroup } from '../utils'
 
 const createGroup = (offset) =>
@@ -44,10 +43,11 @@ const TrialButtonContainer = styled.div`
 const TrialButton = ({ trial, index, activeIndex }) => {
   const [selectedTrial, setTrial] = useAtom(selectedTrialAtom)
   const color = colorForIndex(index + 1)
+  const current = index == activeIndex
 
   if (!trial) {
     return (
-      <TrialButtonContainer active={false} color={color}>
+      <TrialButtonContainer active={false} color={color} current={current}>
         {index + 1}
       </TrialButtonContainer>
     )

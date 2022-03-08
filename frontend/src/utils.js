@@ -40,5 +40,8 @@ export const getPreviousGroupComment = (trials, activeIndex) => {
     const groupIndex = Math.floor(index / 5)
     return groupIndex === myGroup - 1
   })
-  return group[group.length - 1].comment
+  if (group[group.length - 1]) {
+    return group[group.length - 1].comment
+  }
+  return null
 }

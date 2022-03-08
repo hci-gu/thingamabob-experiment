@@ -12,11 +12,20 @@ const CreateGroup = styled.div`
     align-self: flex-end;
     margin-top: 1rem;
   }
+
+  > div {
+    display: flex;
+
+    > input {
+      margin-right: 1rem;
+    }
+  }
 `
 
 const Start = () => {
   const history = useHistory()
   const [name, setName] = useState('')
+  const [type, setType] = useState(null)
   const [groups, createGroup] = useGroups()
 
   const create = async () => {
@@ -28,7 +37,7 @@ const Start = () => {
     history.push(`/group/${groupId}`)
   }
   return (
-    <PageContainer>
+    <PageContainer style={{ width: '60%' }}>
       <h1>Hej! Vill du starta ett nytt experiment?</h1>
       <br></br>
       <Select
@@ -43,11 +52,22 @@ const Start = () => {
       </Select>
       <br></br>
       <CreateGroup>
-        <Input
-          placeholder="Namn på grupp"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
+        <div>
+          <Input
+            placeholder="Namn på grupp"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+          <Select
+            placeholder="Välj Experimenttyp"
+            onChange={(e) => setType(e.target.value)}
+            value={type}
+          >
+            <option value={1}>ExperimentTyp 1</option>
+            <option value={2}>ExperimentTyp 2</option>
+            <option value={2}>ExperimentTyp 3</option>
+          </Select>
+        </div>
         <Button width={200} onClick={create}>
           Skapa
         </Button>

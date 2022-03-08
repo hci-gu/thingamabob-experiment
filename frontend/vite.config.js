@@ -1,3 +1,5 @@
+import svgr from '@honkhonk/vite-plugin-svgr'
+
 export default {
   server: {
     host: '0.0.0.0',
@@ -13,4 +15,5 @@ export default {
       { find: /^~/, replacement: '' },
     ],
   },
+  plugins: [svgr()],
 }

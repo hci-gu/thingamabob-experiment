@@ -92,6 +92,15 @@ const TrialsContainer = styled.div`
   justify-items: center;
 `
 
+const TheoryContainer = styled.div`
+  width: 100%;
+  grid-column: 1 / span 2;
+
+  > span {
+    font-weight: bold;
+  }
+`
+
 const TheoryInput = styled(Textarea)`
   grid-column: 1 / span 2;
 `
@@ -113,7 +122,12 @@ const Experiment = () => {
       <Trials trials={group.trials} />
       <br></br>
       <TrialsContainer>
-        <TheoryInput value={group.comment} disabled />
+        {group.comment && (
+          <TheoryContainer>
+            <span>The wheel covers the distance faster when…</span>
+            <TheoryInput value={group.comment} disabled />
+          </TheoryContainer>
+        )}
         {selectedTrial && <Controls trial={selectedTrial} />}
         <ActiveTrial refreshGroup={refreshGroup} index={group.trials.length} />
       </TrialsContainer>

@@ -9,6 +9,7 @@ import {
   Tooltip,
 } from '@chakra-ui/react'
 import { colorForIndex } from '../utils'
+import SvgArrow from './arrow.svg?component'
 
 const Wrapper = styled.div``
 
@@ -67,6 +68,22 @@ const ControlSlider = ({ reverse, value, index, onChange, ...props }) => {
   )
 }
 
+const Arrow = styled(SvgArrow)`
+  position: absolute;
+  width: 100px;
+  opacity: 0.15;
+`
+const TopRightArrow = styled(Arrow)`
+  top: 2.25rem;
+  right: 2.25rem;
+`
+const BottomLeftArrow = styled(Arrow)`
+  bottom: 2.25rem;
+  left: 2.25rem;
+
+  transform: rotate(180deg);
+`
+
 const Controls = ({ trial, onChange, children, active = false }) => {
   const isReadOnly = !trial.active || trial.validated
   const text = active ? 'Desired configuration' : 'Previous configuration'
@@ -76,6 +93,8 @@ const Controls = ({ trial, onChange, children, active = false }) => {
       <span>{text}</span>
       <Background color={colorForIndex(trial.index + 1)}>
         <Container isActive={trial.active}>
+          <TopRightArrow />
+          <BottomLeftArrow />
           <ControlSlider
             index={0}
             value={trial.config[0]}
