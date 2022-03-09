@@ -22,6 +22,7 @@ module.exports = {
       const parser = serialport.pipe(new Readline({ delimiter: '\n' }))
   
       parser.on('data', function (data) {
+        console.log(data)
         const parts = data.split(' ')
         if (parts.length == 1) {
           console.log('unknown line: ', data)
