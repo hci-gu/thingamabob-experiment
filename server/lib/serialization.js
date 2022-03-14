@@ -4,6 +4,7 @@ function serialise(groups) {
   const data = groups.flatMap(group => group.trials && group.trials.map((trial, i) => ({
     groupId: group.id,
     groupName: group.name,
+    type: group.type,
     trial: i + 1,
     time: trial.result,
     weight1: trial.config[0],
@@ -22,6 +23,7 @@ function unserialise(csv) {
     const id = d.groupId
     let group = groups[id] || { id, trials: [] }
     group.name = d.groupName
+    group.type = d.type
     group.trials.push({
       config: [
         +d.weight1,

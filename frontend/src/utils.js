@@ -1,3 +1,8 @@
+export const TRIAL_TYPE = {
+  LAST_TWO: 'last-2',
+  BEST_TWO: 'best-2',
+}
+
 export const colorForIndex = (index, opacity = 1) => {
   if (index <= 5) {
     return `rgba(167, 76, 72, ${opacity})`
@@ -13,7 +18,7 @@ export const colorForIndex = (index, opacity = 1) => {
   return '#000'
 }
 
-export const canSeeTrialForIndex = (trialIndex, activeIndex) => {
+export const canSeeTrialForIndex = (trialIndex, activeIndex, type, trials) => {
   const trialGroup = Math.floor(trialIndex / 5)
   const myGroup = Math.floor(activeIndex / 5)
   // it's my trials so I can see them
@@ -21,11 +26,22 @@ export const canSeeTrialForIndex = (trialIndex, activeIndex) => {
     const offset = activeIndex - trialIndex
     return offset <= 2
   }
-  // It's the previous group so I can see that last 2 trials for that group
+
   if (trialGroup === myGroup - 1) {
-    const offset = myGroup * 5 - trialIndex
-    return offset <= 2
+    if (type === TRIAL_TYPE.LAST_TWO) {
+      // It's the previous group so I can see that last 2 trials for that group
+      const offset = myGroup * 5 - trialIndex
+      return offset <= 2
+    }
+    if (type === TRIAL_TYPE.BEST_TWO) {
+      const lastGroupTrials = trials.slice(trialGroup * 5, trialGroup * 5 + 5)
+      return lastGroupTrials
+        .sort((a, b) => a.result - b.result)
+        .slice(0, 2)
+        .some((trial) => trial.index === trialIndex)
+    }
   }
+
   return false
 }
 

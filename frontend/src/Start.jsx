@@ -4,6 +4,7 @@ import { Button, Input, Select } from '@chakra-ui/react'
 import { useHistory } from 'react-router-dom'
 import { useGroups } from './hooks/group'
 import styled from '@emotion/styled'
+import { TRIAL_TYPE } from './utils'
 
 const CreateGroup = styled.div`
   display: flex;
@@ -25,11 +26,11 @@ const CreateGroup = styled.div`
 const Start = () => {
   const history = useHistory()
   const [name, setName] = useState('')
-  const [type, setType] = useState(null)
+  const [type, setType] = useState(TRIAL_TYPE.LAST_TWO)
   const [groups, createGroup] = useGroups()
 
   const create = async () => {
-    const group = await createGroup(name)
+    const group = await createGroup(name, type)
     history.push(`/group/${group.id}`)
   }
 
@@ -63,9 +64,8 @@ const Start = () => {
             onChange={(e) => setType(e.target.value)}
             value={type}
           >
-            <option value={1}>ExperimentTyp 1</option>
-            <option value={2}>ExperimentTyp 2</option>
-            <option value={2}>ExperimentTyp 3</option>
+            <option value={TRIAL_TYPE.LAST_TWO}>Visa sista 2 försöken</option>
+            <option value={TRIAL_TYPE.BEST_TWO}>Visa bästa 2 försöken</option>
           </Select>
         </div>
         <Button width={200} onClick={create}>

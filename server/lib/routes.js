@@ -25,10 +25,11 @@ router.get('/groups/:id', (req, res) => {
 })
 
 router.post('/groups', (req, res) => {
-  const { name } = req.body
+  const { name, type } = req.body
   const newGroup = {
     id: uuidv4(),
     name,
+    type,
     trials: [],
   }
   groups.push(newGroup)

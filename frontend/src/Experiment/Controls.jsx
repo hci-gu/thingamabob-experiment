@@ -84,9 +84,13 @@ const BottomLeftArrow = styled(Arrow)`
   transform: rotate(180deg);
 `
 
-const Controls = ({ trial, onChange, children, active = false }) => {
+const Controls = ({ trial, onChange, children, active = false, title }) => {
   const isReadOnly = !trial.active || trial.validated
-  const text = active ? 'Desired configuration' : 'Previous configuration'
+  const text = title
+    ? title
+    : active
+    ? 'Desired configuration'
+    : 'Previous configuration'
 
   return (
     <Wrapper>

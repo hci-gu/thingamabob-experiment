@@ -3,6 +3,7 @@ import styled from '@emotion/styled'
 import { useAtom } from 'jotai'
 import { selectedTrialAtom } from '../state'
 import { canSeeTrialForIndex, colorForIndex, isActiveGroup } from '../utils'
+import { useActiveGroupType } from '../hooks/group'
 
 const createGroup = (offset) =>
   Array(5)
@@ -40,8 +41,9 @@ const TrialButtonContainer = styled.div`
   `}
 `
 
-const TrialButton = ({ trial, index, activeIndex }) => {
+const TrialButton = ({ trial, trials, index, activeIndex }) => {
   const [selectedTrial, setTrial] = useAtom(selectedTrialAtom)
+  const type = useActiveGroupType()
   const color = colorForIndex(index + 1)
   const current = index == activeIndex
 
@@ -57,13 +59,13 @@ const TrialButton = ({ trial, index, activeIndex }) => {
     <TrialButtonContainer
       color={color}
       bgColor={colorForIndex(index + 1, 0.5)}
-      canClick={canSeeTrialForIndex(index, activeIndex)}
+      canClick={canSeeTrialForIndex(index, activeIndex, type, trials)}
       onClick={() => {
-        if (canSeeTrialForIndex(index, activeIndex)) {
+        if (canSeeTrialForIndex(index, activeIndex, type, trials)) {
           setTrial(trial)
         }
       }}
-      active={selectedTrial.result === trial.result}
+      active={selectedTrial.index === trial.index}
       completed
     >
       {trial.result === null ? 'Active' : index != null ? index + 1 : 'H'}
@@ -107,6 +109,7 @@ const Trials = ({ trials }) => {
                 key={`Trial_${index}`}
                 trial={trials[index]}
                 index={index}
+                trials={trials}
               />
             ))}
           </TrialGroup>

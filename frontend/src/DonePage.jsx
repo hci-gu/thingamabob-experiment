@@ -1,7 +1,11 @@
 import { Button, Textarea } from '@chakra-ui/react'
 import styled from '@emotion/styled'
+import { useAtom } from 'jotai'
 import React, { useEffect, useState } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
+import Controls from './Experiment/Controls'
+import { useDoneTrial } from './hooks/useDoneTrial'
+import { selectedTrialAtom } from './state'
 import { PageContainer } from './theme'
 
 const url = import.meta.env.VITE_API_URL
@@ -32,6 +36,7 @@ const WriteTheory = () => {
   const history = useHistory()
   const { id, index } = useParams()
   const [text, setText] = useState('')
+  const [, setSelectedTrial] = useAtom(selectedTrialAtom)
 
   const onSubmit = async () => {
     if (text.length < 5) {
@@ -55,12 +60,11 @@ const WriteTheory = () => {
   return (
     <>
       <span>
-        Please write a short (2-3 sentences) suggestion of your theory for the
-        next participant in the order.
+        Skriv ett kort (2-3 meningar) förslag på din teori för nästa deltagare.
       </span>
       <br></br>
       <span style={{ fontWeight: 'bold' }}>
-        The wheel covers the distance faster when…
+        Hjulet rullar snabbare nerför banan när...
       </span>
       <TextareaContainer>
         <span>{text.length}/340</span>
@@ -81,6 +85,7 @@ const WriteTheory = () => {
 }
 
 const DonePage = () => {
+  const trial = useDoneTrial()
   const [isTestDone, setIsTestDone] = useState(false)
   const [isButtonDisabled, setIsButtonDisabled] = useState(true)
 
@@ -95,6 +100,9 @@ const DonePage = () => {
     <Container>
       <h1>Thank you for participating!</h1>
       <br></br>
+      <div style={{ width: 385 }}>
+        {trial && <Controls trial={trial} title="Your final configuration" />}
+      </div>
       <br></br>
       {!isTestDone && (
         <>
