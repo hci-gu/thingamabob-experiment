@@ -69,7 +69,7 @@ const WriteTheory = () => {
       <TextareaContainer>
         <span>{text.length}/340</span>
         <Textarea
-          placeholder="skriv din teori här ( max 340 bokstäver )"
+          placeholder="skriv ditt förslag här ( max 340 bokstäver )"
           value={text}
           onChange={(e) => {
             if (e.target.value.length <= 340) setText(e.target.value)
