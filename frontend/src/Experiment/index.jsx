@@ -124,7 +124,7 @@ const Experiment = () => {
       <TrialsContainer>
         {group.comment && (
           <TheoryContainer>
-            <span>Föregående deltageres förslag</span>
+            <span>Föregående deltagares förslag</span>
             <TheoryInput
               value={`Hjulet rullar snabbare nerför banan när ${group.comment}`}
               disabled
