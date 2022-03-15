@@ -37,7 +37,9 @@ const TrialButtonContainer = styled.div`
     props.canClick &&
     `
     cursor: pointer;
+    font-size: 28px;
     font-weight: bold;
+    text-decoration: underline;
   `}
 `
 
@@ -99,9 +101,7 @@ const Trials = ({ trials }) => {
         .map((group, i) => (
           <TrialGroup color={colorForIndex((i + 1) * 5)}>
             <span>
-              {isActiveGroup(i, activeTrialIndex)
-                ? 'You'
-                : `Participant ${i + 1}`}
+              {isActiveGroup(i, activeTrialIndex) ? 'Du' : `Deltagare ${i + 1}`}
             </span>
             {group.map((index) => (
               <TrialButton

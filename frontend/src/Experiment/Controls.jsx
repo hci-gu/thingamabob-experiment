@@ -89,8 +89,8 @@ const Controls = ({ trial, onChange, children, active = false, title }) => {
   const text = title
     ? title
     : active
-    ? 'Desired configuration'
-    : 'Previous configuration'
+    ? 'Önskad konfiguration'
+    : 'Föregående konfiguration'
 
   return (
     <Wrapper>
@@ -136,7 +136,7 @@ const Controls = ({ trial, onChange, children, active = false, title }) => {
             reverse
           />
           <span>
-            Duration:{' '}
+            Tid:{' '}
             {trial.result
               ? Intl.NumberFormat('sv-se').format(trial.result)
               : '- '}{' '}

@@ -69,7 +69,7 @@ const WriteTheory = () => {
       <TextareaContainer>
         <span>{text.length}/340</span>
         <Textarea
-          placeholder="write suggestion here ( max 340 characters )"
+          placeholder="skriv din teori här ( max 340 bokstäver )"
           value={text}
           onChange={(e) => {
             if (e.target.value.length <= 340) setText(e.target.value)
@@ -98,17 +98,19 @@ const DonePage = () => {
 
   return (
     <Container>
-      <h1>Thank you for participating!</h1>
+      <h1>Tack för din medverkan!</h1>
       <br></br>
       <div style={{ width: 385 }}>
-        {trial && <Controls trial={trial} title="Your final configuration" />}
+        {trial && (
+          <Controls trial={trial} title="Din slutgiltiga konfiguration" />
+        )}
       </div>
       <br></br>
       {!isTestDone && (
         <>
           <p>
-            You will now perform a test given by the instructor, wait until you
-            are done before proceeding.
+            Du kommer nu att utföra ett test som ges av instruktören, vänta
+            tills du är klar innan du fortsätter.
           </p>
           <br></br>
           <Button
@@ -116,7 +118,7 @@ const DonePage = () => {
             onClick={() => setIsTestDone(true)}
             disabled={isButtonDisabled}
           >
-            Proceed
+            Fortsätt
           </Button>
         </>
       )}

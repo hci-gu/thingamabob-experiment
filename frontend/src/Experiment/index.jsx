@@ -75,7 +75,7 @@ const ActiveTrial = ({ refreshGroup, index }) => {
     <div>
       <Controls trial={{ ...trial, index }} onChange={onChange} active>
         <SubmitButton onClick={onValidatePressed} disabled={trial.validated}>
-          {trial.validated ? 'Validated' : 'Validate'}
+          {trial.validated ? 'Validerad' : 'Validera'}
         </SubmitButton>
       </Controls>
     </div>
@@ -124,8 +124,11 @@ const Experiment = () => {
       <TrialsContainer>
         {group.comment && (
           <TheoryContainer>
-            <span>The wheel covers the distance faster when…</span>
-            <TheoryInput value={group.comment} disabled />
+            <span>Föregående deltageres teori</span>
+            <TheoryInput
+              value={`Hjulet rullar snabbare nerför banan när ${group.comment}`}
+              disabled
+            />
           </TheoryContainer>
         )}
         {selectedTrial && <Controls trial={selectedTrial} />}
