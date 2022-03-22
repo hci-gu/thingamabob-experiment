@@ -37,6 +37,15 @@ router.post('/groups', (req, res) => {
   res.json(newGroup)
 })
 
+router.delete('/groups/:id/trials/:index', (req, res) => {
+  const { id, index } = req.params
+
+  const group = groups.find(({ id: groupId }) => groupId === id)
+  group.trials.splice(index, 1)
+  save(groups)
+  res.sendStatus(200)
+})
+
 router.post('/groups/:id/trials', (req, res) => {
   const { id } = req.params
   const { config, result } = req.body

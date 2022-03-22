@@ -3,7 +3,7 @@ import styled from '@emotion/styled'
 import { useAtom } from 'jotai'
 import { selectedTrialAtom } from '../state'
 import { canSeeTrialForIndex, colorForIndex, isActiveGroup } from '../utils'
-import { useActiveGroupType } from '../hooks/group'
+import { useActiveGroupType, useIsDoneWithTrials } from '../hooks/group'
 
 const createGroup = (offset) =>
   Array(5)
@@ -92,6 +92,7 @@ const TrialGroup = styled.div`
 
 const Trials = ({ trials }) => {
   const activeTrialIndex = trials.length
+  const isDone = useIsDoneWithTrials()
 
   return (
     <Container>
@@ -99,9 +100,17 @@ const Trials = ({ trials }) => {
         .fill()
         .map((_, groupIndex) => createGroup(groupIndex))
         .map((group, i) => (
-          <TrialGroup color={colorForIndex((i + 1) * 5)}>
+          <TrialGroup
+            color={colorForIndex((i + 1) * 5)}
+            key={`Group_${group.id}_${i}`}
+          >
             <span>
-              {isActiveGroup(i, activeTrialIndex) ? 'Du' : `Deltagare ${i + 1}`}
+              {isActiveGroup(
+                i,
+                isDone ? activeTrialIndex - 1 : activeTrialIndex
+              )
+                ? 'Du'
+                : `Deltagare ${i + 1}`}
             </span>
             {group.map((index) => (
               <TrialButton

@@ -1,6 +1,6 @@
 import { useAtom } from 'jotai'
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 import { activeGroupAtom, groupsAtom, selectedTrialAtom } from '../state'
 import {
   canSeeTrialForIndex,
@@ -89,4 +89,9 @@ export const useGroup = () => {
 export const useActiveGroupType = () => {
   const [group] = useAtom(activeGroupAtom)
   return group.type
+}
+
+export const useIsDoneWithTrials = () => {
+  const history = useHistory()
+  return history.location.pathname.includes('done')
 }

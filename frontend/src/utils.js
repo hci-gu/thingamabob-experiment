@@ -18,11 +18,26 @@ export const colorForIndex = (index, opacity = 1) => {
   return '#000'
 }
 
-export const canSeeTrialForIndex = (trialIndex, activeIndex, type, trials) => {
+export const canSeeTrialForIndex = (
+  trialIndex,
+  activeIndex,
+  type,
+  trials,
+  isDone
+) => {
+  activeIndex = isDone ? activeIndex - 1 : activeIndex
   const trialGroup = Math.floor(trialIndex / 5)
   const myGroup = Math.floor(activeIndex / 5)
   // it's my trials so I can see them
   if (trialGroup === myGroup) {
+    if (isDone && type === TRIAL_TYPE.BEST_TWO) {
+      const lastGroupTrials = trials.slice(trialGroup, trialGroup + 5)
+      return lastGroupTrials
+        .sort((a, b) => a.result - b.result)
+        .slice(0, 2)
+        .some((trial) => trial.index === trialIndex)
+    }
+
     const offset = activeIndex - trialIndex
     return offset <= 2
   }

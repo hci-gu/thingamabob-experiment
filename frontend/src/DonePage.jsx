@@ -4,6 +4,7 @@ import { useAtom } from 'jotai'
 import React, { useEffect, useState } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
 import Controls from './Experiment/Controls'
+import { useGroup } from './hooks/group'
 import { useDoneTrial } from './hooks/useDoneTrial'
 import { selectedTrialAtom } from './state'
 import { PageContainer } from './theme'
@@ -36,7 +37,6 @@ const WriteTheory = () => {
   const history = useHistory()
   const { id, index } = useParams()
   const [text, setText] = useState('')
-  const [, setSelectedTrial] = useAtom(selectedTrialAtom)
 
   const onSubmit = async () => {
     if (text.length < 5) {
@@ -55,24 +55,28 @@ const WriteTheory = () => {
       }),
     })
     history.push(`/group/${id}`)
+    location.reload()
   }
+
+  const defaultText = 'Hjulet rullar snabbare nerför banan när... '
 
   return (
     <>
       <span>
-        Skriv ett kort (2-3 meningar) förslag på din teori för nästa deltagare.
+        Skriv ett kort (max 340 bokstäver) förslag på din teori för nästa
+        deltagare.
       </span>
       <br></br>
-      <span style={{ fontWeight: 'bold' }}>
-        Hjulet rullar snabbare nerför banan när...
-      </span>
       <TextareaContainer>
         <span>{text.length}/340</span>
         <Textarea
-          placeholder="skriv ditt förslag här ( max 340 bokstäver )"
-          value={text}
+          value={`${defaultText}${text}`}
           onChange={(e) => {
-            if (e.target.value.length <= 340) setText(e.target.value)
+            const newValue = e.target.value.replace(defaultText, '')
+            if (!text.length && !newValue.length) {
+              return
+            }
+            if (newValue.length <= 340) setText(newValue)
           }}
         />
       </TextareaContainer>
@@ -85,7 +89,6 @@ const WriteTheory = () => {
 }
 
 const DonePage = () => {
-  const trial = useDoneTrial()
   const [isTestDone, setIsTestDone] = useState(false)
   const [isButtonDisabled, setIsButtonDisabled] = useState(true)
 
@@ -99,12 +102,6 @@ const DonePage = () => {
   return (
     <Container>
       <h1>Tack för din medverkan!</h1>
-      <br></br>
-      <div style={{ width: 385 }}>
-        {trial && (
-          <Controls trial={trial} title="Din slutgiltiga konfiguration" />
-        )}
-      </div>
       <br></br>
       {!isTestDone && (
         <>

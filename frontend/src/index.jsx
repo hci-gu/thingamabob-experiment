@@ -16,11 +16,11 @@ const Root = () => {
       <ChakraProvider>
         <Router>
           <Switch>
-            <Route path="/group/:id/done/:index">
-              <DonePage />
-            </Route>
             <Route path="/group/:id">
               <Experiment />
+              <Route path="/group/:id/done/:index">
+                <DonePage />
+              </Route>
             </Route>
             <Route path="/">
               <Start />

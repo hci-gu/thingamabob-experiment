@@ -11,6 +11,8 @@ import {
 import { colorForIndex } from '../utils'
 import SvgArrow from './arrow.svg?component'
 
+const FAIL_DURATION = 9999999
+
 const Wrapper = styled.div``
 
 const Background = styled.div`
@@ -137,10 +139,12 @@ const Controls = ({ trial, onChange, children, active = false, title }) => {
           />
           <span>
             Tid:{' '}
-            {trial.result
+            {trial.result === FAIL_DURATION
+              ? 'Ogiltig'
+              : trial.result
               ? Intl.NumberFormat('sv-se').format(trial.result)
               : '- '}{' '}
-            ms
+            {trial.result && trial.result !== FAIL_DURATION && 'ms'}
           </span>
           {children}
         </Container>
