@@ -72,8 +72,9 @@ const WriteTheory = () => {
         <Textarea
           value={`${defaultText}${text}`}
           onChange={(e) => {
-            const newValue = e.target.value.replace(defaultText, '')
-            if (newValue.length <= 340) setText(newValue)
+            // set text but keep defaultText at start
+            const value = e.target.value.slice(defaultText.length)
+            if (value.length <= 340) setText(value)
           }}
         />
       </TextareaContainer>
@@ -116,7 +117,7 @@ const DonePage = () => {
           </Button>
         </>
       )}
-      {isTestDone && <WriteTheory />}
+      <WriteTheory />
     </Container>
   )
 }

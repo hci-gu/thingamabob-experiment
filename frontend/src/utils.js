@@ -30,7 +30,10 @@ export const canSeeTrialForIndex = (
   const myGroup = Math.floor(activeIndex / 5)
   // it's my trials so I can see them
   if (trialGroup === myGroup) {
-    if (isDone && type === TRIAL_TYPE.BEST_TWO) {
+    if (isDone && type === TRIAL_TYPE.LAST_TWO) {
+      const offset = activeIndex - trialIndex
+      return offset <= 1
+    } else if (isDone && type === TRIAL_TYPE.BEST_TWO) {
       const lastGroupTrials = trials.slice(trialGroup, trialGroup + 5)
       return lastGroupTrials
         .sort((a, b) => a.result - b.result)
