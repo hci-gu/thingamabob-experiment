@@ -43,7 +43,7 @@ const TrialButtonContainer = styled.div`
   `}
 `
 
-const TrialButton = ({ trial, trials, index, activeIndex }) => {
+const TrialButton = ({ trial, trials, index, activeIndex, isDone }) => {
   const [selectedTrial, setTrial] = useAtom(selectedTrialAtom)
   const type = useActiveGroupType()
   const color = colorForIndex(index + 1)
@@ -61,9 +61,9 @@ const TrialButton = ({ trial, trials, index, activeIndex }) => {
     <TrialButtonContainer
       color={color}
       bgColor={colorForIndex(index + 1, 0.5)}
-      canClick={canSeeTrialForIndex(index, activeIndex, type, trials)}
+      canClick={canSeeTrialForIndex(index, activeIndex, type, trials, isDone)}
       onClick={() => {
-        if (canSeeTrialForIndex(index, activeIndex, type, trials)) {
+        if (canSeeTrialForIndex(index, activeIndex, type, trials, isDone)) {
           setTrial(trial)
         }
       }}
@@ -119,6 +119,7 @@ const Trials = ({ trials }) => {
                 trial={trials[index]}
                 index={index}
                 trials={trials}
+                isDone={isDone}
               />
             ))}
           </TrialGroup>

@@ -73,9 +73,6 @@ const WriteTheory = () => {
           value={`${defaultText}${text}`}
           onChange={(e) => {
             const newValue = e.target.value.replace(defaultText, '')
-            if (!text.length && !newValue.length) {
-              return
-            }
             if (newValue.length <= 340) setText(newValue)
           }}
         />
