@@ -117,7 +117,7 @@ const DonePage = () => {
           </Button>
         </>
       )}
-      <WriteTheory />
+      {isTestDone && <WriteTheory />}
     </Container>
   )
 }
