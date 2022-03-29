@@ -34,8 +34,8 @@ export const canSeeTrialForIndex = (
       const offset = activeIndex - trialIndex
       return offset <= 1
     } else if (isDone && type === TRIAL_TYPE.BEST_TWO) {
-      const lastGroupTrials = trials.slice(trialGroup, trialGroup + 5)
-      return lastGroupTrials
+      const myGroupTrials = trials.slice(myGroup * 5, myGroup * 5 + 5)
+      return myGroupTrials
         .sort((a, b) => a.result - b.result)
         .slice(0, 2)
         .some((trial) => trial.index === trialIndex)
